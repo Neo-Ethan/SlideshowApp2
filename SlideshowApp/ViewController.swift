@@ -118,9 +118,16 @@ class ViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (timer != nil){//この後に処理を入れている
+            timer.invalidate()  //再生中に拡大画面にしようとするときに停止させる
+            timer = nil  //nilの時だけ停止させる条件に加工する必要がある行
+        }
+        startButton.setTitle("再生", for: .normal)
+        returnButton.isEnabled = true
+        goButton.isEnabled = true
         
-           let resultViewController:ResultViewController = segue.destination as! ResultViewController
-
+        let resultViewController:ResultViewController = segue.destination as! ResultViewController
+        
         var nextImage: UIImage!
         if imageNo == 0 {
             nextImage = UIImage(named: "image1")
@@ -135,5 +142,25 @@ class ViewController: UIViewController {
         
         
     }
+    //TapGestureRecognizerオブジェクトをUIImageViewの上に配置（埋め込む）←完了済み
+    
+    //あいさつアプリの名前を受け渡したコードを今度は、画像を受け渡す処理に変える。
+    //拡大は必要なく、画像をイメージビューに写す。
+    //文字列の受け渡しではなく、画像を受け取るためのプロパティを用意する
+    //上記の３行分まではコード完了済み
+    
+    //スライドショー画面から遷移するときに拡大画面上のプロパティに設定する(あいさつアプリと同じ流れ)→これもResultViewがめんにコード完了済み
+    
+    //拡大画面から戻るときは、レッスン４の課題と同じ。
+    @IBAction func unwind(_ segue: UIStoryboardSegue) {
+        // 他の画面から segue を使って戻ってきた時に呼ばれる
+    }
+    //スライド画面の画像をタップしたときに遷移する・・・この後、ResultViewController 画面の「戻る」ぼたんをコントっロールぼたん＋ドラッグして、上部のエグジットにドラッグして指定する。（テキストLesson 4Chapter 8.1　segueの真ん中あたりに記載あり）
+    
+    //再生中にタップ拡大した際には、スライドショーを一旦停止させるコードが必要→再生中に拡大画面にしようとするときに停止させる
+    
+    
+    
 }
+
 
